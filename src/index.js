@@ -37,8 +37,37 @@ const MORSE_TABLE = {
     '-----':  '0',
 };
 
+const splitIntoSegments = (str, n) => str.match(new RegExp(`.{1,${n}}`, 'g')) || [];
+
+
 function decode(expr) {
-    // write your solution here
+  let str = '';
+  let arr = [];
+    const strArr = splitIntoSegments(expr, 10);
+
+    strArr.forEach((value) => {
+      if (value === '**********') {
+        arr.push(' ');
+      }
+      else {
+        let el = '';
+        value = parseInt(value).toString();
+        const valueArr = splitIntoSegments(value, 2);
+        valueArr.forEach((symbol) => {
+          if (symbol === '10') el += '.';
+          if (symbol === '11') el += '-';
+        });
+        //console.log(el);
+        arr.push(el);
+      }
+      
+    });
+
+    arr.forEach((morseSymbol) => {
+      str += (morseSymbol === ' ') ? ' ' : MORSE_TABLE[morseSymbol];
+    });
+
+    return str;
 }
 
 module.exports = {
